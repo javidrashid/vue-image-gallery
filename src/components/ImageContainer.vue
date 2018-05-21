@@ -8,12 +8,13 @@
       </div>
       <!-- <a href="#" id="deleteImgs" @click="deleteImages">Delete Images</a> -->
       <div class="row text-center text-lg-left">
-        <div class="col-lg-3 col-md-4 col-xs-6" v-for="img in imagesObject">
+        <div  class="col-lg-3 col-md-4 col-xs-6" v-for="(img, index) in imagesObject">
           <a href="#" class="d-block mb-4 h-100">
-            <img class="img-fluid img-thumbnail" :src="img" alt="">
+            <img class="img-fluid img-thumbnail" @click="deleteThisimage(index, $event)" :src="img" alt="">
           </a>
         </div>
       </div>
+      <button @click="deleteAllImages">Delete All Images</button>
     </div>    
 </template>
 <script>
@@ -57,6 +58,15 @@ export default {
         this.imagesObject = images;
         //images.forEach(displayImgData);
       }
+    },
+    deleteThisimage(index, e) {
+      console.log('images are', this.imagesObject);
+      localStorage.removeItem('images');
+      this.imagesObject.splice(index, 1)
+    },
+    deleteAllImages() {
+      localStorage.removeItem('images');
+      this.imagesObject = [];
     }
     },
     mounted() {
