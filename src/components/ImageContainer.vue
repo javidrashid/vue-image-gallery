@@ -5,12 +5,18 @@
       <input type="file" id="files" @change="handleFileSelect">
       <p id="state">No images stored in your browser.</p>
       <div id="list">
+        
       </div>
       <!-- <a href="#" id="deleteImgs" @click="deleteImages">Delete Images</a> -->
+      
       <div class="row text-center text-lg-left">
         <div  class="col-lg-3 col-md-4 col-xs-6" v-for="(img, index) in imagesObject">
           <a href="#" class="d-block mb-4 h-100">
-            <img class="img-fluid img-thumbnail" @click="deleteThisimage(index, $event)" :src="img" alt="">
+            <!-- <img class="img-fluid img-thumbnail"  :src="img" alt=""> -->
+            <lightbox
+             :thumbnail="img"
+              :images="imagesObject"
+            ></lightbox>
           </a>
         </div>
       </div>
@@ -18,12 +24,17 @@
     </div>    
 </template>
 <script>
+
 export default {
     data() {
         return {
             imagesObject : [ ],
             imgData : ''
+            
         }
+    },
+    components : {
+      
     },
     methods : {
 

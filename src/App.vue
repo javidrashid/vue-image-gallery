@@ -11,6 +11,7 @@ import Header from './components/Header.vue'
 import ImageContainer from './components/ImageContainer.vue'
 import Footer from './components/Footer.vue'
 
+
 export default {
   name: 'app',
   components: {
