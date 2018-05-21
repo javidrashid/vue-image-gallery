@@ -8,16 +8,11 @@
       </div>
       <!-- <a href="#" id="deleteImgs" @click="deleteImages">Delete Images</a> -->
       <div class="row text-center text-lg-left">
-        <ul>
-          <li v-for="img in imagesObject">{{img}}</li>
-
-
-        </ul>
-        <ul>
-          <li v-for="img in imagesObject">
-            <img :src="img" alt="">
-          </li>
-        </ul>
+        <div class="col-lg-3 col-md-4 col-xs-6" v-for="img in imagesObject">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" :src="img" alt="">
+          </a>
+        </div>
       </div>
     </div>    
 </template>
@@ -44,13 +39,29 @@ export default {
           var reader = new FileReader();
         
           // Closure to capture the file information.
-          reader.onload = (e) => {this.imgData = e.target.result, this.imagesObject.push(this.imgData)};
+          reader.onload = (e) => {
+                              console.log(e);
+                              this.imgData = e.target.result,
+                              this.imagesObject.push(this.imgData);
+                              localStorage.setItem("images", JSON.stringify(this.imagesObject));};
           
           //this.imagesObject.push(imgData)
           console.log('this imagesObject' , this.imagesObject);
           reader.readAsDataURL(f);
         }
+    },
+    loadFromLocalStorage(){
+      var images = JSON.parse(localStorage.getItem("images"))
+
+      if(images && images.length > 0){
+        this.imagesObject = images;
+        //images.forEach(displayImgData);
+      }
     }
+    },
+    mounted() {
+      console.log('I got mounted');
+      this.loadFromLocalStorage();
     }
     
 }
