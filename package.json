@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "moment": "^2.22.0",
     "vue": "^2.5.16",
     "vue-pure-lightbox": "^2.1.4"
   },

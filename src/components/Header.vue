@@ -42,7 +42,7 @@ export default {
   },
   methods : {
     uploadImage() {
-      console.log('image uplaoded');
+     //this.$parent.handleFileSelect();
     }
   }
 }
