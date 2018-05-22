@@ -3,7 +3,7 @@
       <h1 class="my-4 text-center text-lg-left">Thumbnail Gallery</h1>
       <p>Select images, they will be stored in your browser and will be displayed even after reload. Selecting big images (&gt; 2MB) can crash your browser.</p>
       <!-- <input type="file" id="files" @change="handleFileSelect"> -->
-       <label class="btn btn-default" @change="handleFileSelect">
+       <label class="btn btn-success" @change="handleFileSelect">
             Add Image <input type="file" accept="image/*" hidden />
         </label>
 
@@ -16,9 +16,10 @@
         <div  class="col-lg-3 col-md-4 col-xs-6" v-for="(img, index) in imagesObject">
           <a href="#" class="d-block mb-4 h-100">
             <img class="img-fluid img-thumbnail"  :src="img.imageData" alt="">
-             <button class="btn btn-danger btn-small" @click="deleteThisimage(index, $event)">Delete</button>
-               <span>{{ img.dateUploaded }}</span>
-           </a>
+               <p class="alert alert-info font-weight-light">Uploaded On{{ img.dateUploaded }}</p>
+               <button class="btn btn-block btn-sm btn-danger btn-small" @click="deleteThisimage(index, $event)">Delete</button>
+             </a>
+           
         </div>
         
         <hr>
@@ -34,7 +35,7 @@
         </div>
         <hr>
      
-      <button @click="deleteAllImages" class="btn btn-danger btn-block ">Delete All Images</button>
+      <button @click="deleteAllImages" class="btn btn-danger btn-block ">Delete All Images [Clear Local Storage]</button>
     
       <hr>
     </div>    
@@ -142,7 +143,7 @@ export default {
 </script>
 <style>
 .img-thumbnail {
-  border: 1px solid red;
+  
   width: 400px;
   height: 300px;
 }
@@ -151,5 +152,15 @@ export default {
   display: block;
   width: 50px !important;
   height: 50px !important;
+}
+.font-weight-light {
+  font-size:12px;
+ 
+  
+}
+a {
+  /* border: 2px solid rgba(0, 0, 0, 0.678); */
+   cursor: auto;
+   text-decoration: none !important;
 }
 </style>
