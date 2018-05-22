@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import App from './App.vue'
-
-
-import VuePaginate from 'vue-paginate'
-
+import VueToastr from '@deveodk/vue-toastr'
 
 import Lightbox from 'vue-pure-lightbox'
 Vue.use(Lightbox)
-Vue.use(VuePaginate)
 
+
+Vue.use(VueToastr, {
+  defaultPosition: 'toast-top-right',
+  defaultType: 'info',
+  defaultTimeout: 3000
+});
 
 Vue.config.productionTip = false
 
