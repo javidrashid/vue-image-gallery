@@ -6,38 +6,30 @@
        <label class="btn btn-success" @change="handleFileSelect">
             Add Image <input type="file" accept="image/*" hidden />
         </label>
-
-
-      <p id="state">No images stored in your browser.</p>
-      <div id="list">
-        
-      </div>
       <div class="row text-center text-lg-left">
         <div  class="col-lg-3 col-md-4 col-xs-6" v-for="(img, index) in imagesObject">
           <a href="#" class="d-block mb-4 h-100">
-            <img class="img-fluid img-thumbnail"  :src="img.imageData" alt="">
-               <p class="alert alert-info font-weight-light">Uploaded On{{ img.dateUploaded }}</p>
+            <img class="img-fluid img-thumbnail" :src="img.imageData" alt="">
+               <p class="alert alert-info font-weight-light">Uploaded On <span class="green">{{ img.dateUploaded }}</span></p>
                <button class="btn btn-block btn-sm btn-danger btn-small" @click="deleteThisimage(index, $event)">Delete</button>
              </a>
-           
         </div>
-        
         <hr>
    </div>
-      <div >
-            <h2 class="alert alert-info">Generate a Carousal</h2>
-        </div>
+      <div class="carousal-area" v-hide="this.localStorageHasImages.length === 0">
+        <h2 class="alert alert-info">Generate a Carousal</h2>
         <div class="row">
            <lightbox v-for="(img, index) in imagesObject"
-              :thumbnail="img.imageData"
-              :images="imagesObject"
+              :thumbnail=img.imageData
+              :images="[img.imageData]"
             ></lightbox>
         </div>
         <hr>
-     
-      <button @click="deleteAllImages" class="btn btn-danger btn-block ">Delete All Images [Clear Local Storage]</button>
-    
+     <button @click="deleteAllImages" class="btn btn-danger btn-block ">Delete All Images [Clear Local Storage]</button>
+    </div>
       <hr>
+     
+
     </div>    
 </template>
 <script>
@@ -49,14 +41,17 @@ export default {
       imagesObject: [
         
       ],
-      carousalImages : this.imagesObject,
-      imageData: "",
-      //dateField: ""
+      langs: ['JavaScript', 'PHP', 'HTML', 'CSS', 'Ruby', 'Python', 'Erlang'],
+       paginate: ['languages'],
+     localStorageHasImages : [],
+     galleryImages : []
     };
   },
   components: {},
   methods: {
-
+    showHideBanner() {
+      console.log(this.localStorageHasImages.length);
+    },
     handleFileSelect(evt) {
       var files = evt.target.files; // FileList object
       // Loop through the FileList and render image files as thumbnails.
@@ -72,6 +67,7 @@ export default {
           console.log("Uplaoded At", new Date(e.timeStamp * 1000));
           this.imagesObject.dateUploaded = new Date(e.timeStamp * 1000);
           this.imagesObject.push({'imageData' : e.target.result, 'dateUploaded' : moment().format('LLLL') });
+          this.galleryImages.push(e.target.result)
           localStorage.setItem("images", JSON.stringify(this.imagesObject));
           //localStorage.setItem("DU", JSON.stringify(moment().format('LLLL')));
         
@@ -103,7 +99,9 @@ export default {
       console.log("images", images);
       if (images && images.length > 0) {
         this.imagesObject = images;
-        //let listofImages = []
+        console.log('images available in localstorage are', images.length);
+        this.localStorageHasImages = images.length;
+        
       } else {
         //let listofImages = [require('../assets/garden-rose1.jpeg'),require('../assets/ultra.jpg'), require('../assets/hiking.jpg') ];
         // var dummyImage;
@@ -138,6 +136,7 @@ export default {
   mounted() {
     console.log("I got mounted");
     this.loadFromLocalStorage();
+    this.showHideBanner();
   }
 };
 </script>
@@ -162,5 +161,8 @@ a {
   /* border: 2px solid rgba(0, 0, 0, 0.678); */
    cursor: auto;
    text-decoration: none !important;
+}
+.alert-info span {
+  color : red;
 }
 </style>
