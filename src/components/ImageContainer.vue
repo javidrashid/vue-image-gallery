@@ -29,7 +29,7 @@
     </div>
       <hr>
       <div class="withpagination" v-show="imagesObject.length > 0">
-         <h4 class="alert alert-info" >View Images Using Pagination</h4>
+         <h4 class="alert alert-info" >View Images With Pagination</h4>
           <paginate
           name="images"
           :list="bannerImage"
@@ -112,6 +112,7 @@ export default {
    mounted() {
     this.loadFromLocalStorage();
     this.createImagesForPagination();
+     this.$toastr('info', 'Start Uploading Your Favourite Images by clicking Add Image Button!', 'Add and Store!!!');
   }
 };
 </script>
