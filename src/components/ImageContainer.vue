@@ -28,7 +28,16 @@
      <button @click="deleteAllImages" class="btn btn-danger btn-block ">Delete All Images [Clear Local Storage]</button>
     </div>
       <hr>
-     
+     <paginate
+        name="languages"
+        :list="langs"
+        :per="2"
+      >
+        <li v-for="lang in paginated('languages')">
+          {{ lang }}
+        </li>
+      </paginate>
+      <paginate-links for="languages"></paginate-links>
 
     </div>    
 </template>
@@ -36,12 +45,17 @@
 import moment from 'moment';
 export default {
   data() {
+    
     return {
       imagesObject: [],
       localStorageHasImages : [],
       galleryImages : [],
-      hideBanner : true
+      hideBanner : true,
+      bannerImage : [],
+      langs: ['JavaScript', 'PHP', 'HTML', 'CSS', 'Ruby', 'Python', 'Erlang'],
+      paginate: ['languages']
     };
+    
   },
   methods: {
     showBanner() {
@@ -60,6 +74,7 @@ export default {
           this.galleryImages.push(e.target.result)
           localStorage.setItem("images", JSON.stringify(this.imagesObject));
            this.$toastr('success', 'Image Added Successfully to Gallery', 'Image Added!!!');
+           console.log('after upload', this.imagesObject);
         };
        reader.readAsDataURL(f);
       }
@@ -88,9 +103,17 @@ export default {
      moment: function (date) {
       return moment(date);
     },
+    createImagesForPagination() {
+    let pagArr = [];
+    console.log(this.imagesObject);
+    this.imagesObject.map((elem,index) => this.bannerImage.push(elem.imageData));
+     console.log(this.bannerImage);
   },
+  },
+  
    mounted() {
     this.loadFromLocalStorage();
+    this.createImagesForPagination();
   }
 };
 </script>
@@ -118,4 +141,70 @@ a {
 .alert-info span {
   color : red;
 }
+
+
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 20px;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+h1,
+h2 {
+  font-weight: normal;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.paginate-list {
+  width: 159px;
+  margin: 0 auto;
+  text-align: left;
+  li {
+    display: block;
+    &:before {
+      content: '⚬ ';
+      font-weight: bold;
+      color: slategray;
+    }
+  }
+}
+
+.paginate-links.items {
+  user-select: none;
+  a {
+    cursor: pointer;
+  }
+  li.active a {
+    font-weight: bold;
+  }
+  li.next:before {
+    content: ' | ';
+    margin-right: 13px;
+    color: #ddd;
+  }
+  li.disabled a {
+    color: #ccc;
+    cursor: no-drop;
+  }
+}
+
+a {
+  color: #42b983;
+}
+
+
+
 </style>
