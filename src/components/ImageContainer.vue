@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container main-body">
       <h1 class="my-4 text-center text-lg-left">Vue Image Gallery with LocalStorage Support</h1>
       <p>Select images, they will be stored in your browser and will be displayed even after reload. Selecting big images (&gt; 10MB) can crash your browser.</p>
       <!-- <input type="file" id="files" @change="handleFileSelect"> -->
@@ -8,7 +8,7 @@
         </label>
       <div class="row text-center text-lg-left">
         <div  class="col-lg-3 col-md-4 col-xs-6" v-for="(img, index) in imagesObject">
-          <a href="#" class="d-block mb-4 h-100">
+          <a href="javascript:void(0)" class="d-block mb-4 h-100 potrait">
             <img class="img-fluid img-thumbnail" :src="img.imageData" alt="">
                <p class="alert alert-info font-weight-light">Uploaded On <span class="green">{{ img.dateUploaded }}</span></p>
                <button class="btn btn-block btn-sm btn-danger btn-small" @click="deleteThisImage(index, $event)">Delete</button>
@@ -16,10 +16,9 @@
         </div>
         <hr>
    </div>
-      <div class="carousal-area"  >
-        <h2 class="alert alert-info" :hide="hideBanner">Click below to See Zoomed View</h2>
+      <div class="carousal-area" v-show="imagesObject.length > 0">
+        <h4 class="alert alert-info" >Click below to See Zoomed View</h4>
         <div class="row container">
-         
            <lightbox v-for="(img, index) in imagesObject"
               :thumbnail=img.imageData
               :images="[img.imageData]"
@@ -29,45 +28,35 @@
      <button @click="deleteAllImages" class="btn btn-danger btn-block ">Delete All Images [Clear Local Storage]</button>
     </div>
       <hr>
-
-      <div class="withpagination">
-         <h2 class="alert alert-info" :hide="hideBanner">View Images Using Pagination</h2>
+      <div class="withpagination" v-show="imagesObject.length > 0">
+         <h4 class="alert alert-info" >View Images Using Pagination</h4>
           <paginate
           name="images"
           :list="bannerImage"
           :per="1"
           >
-            <li v-for="lang in paginated('images')">
-              <img :src="lang" alt="">
+            <li v-for="img in paginated('images')">
+              <img :src="img" alt="">
             </li>
         </paginate>
          <paginate-links for="images" :limit="2" :show-step-links="true"></paginate-links>
       </div>
-     
-      
-
     </div>    
 </template>
 <script>
 import moment from 'moment';
 export default {
   data() {
-    
     return {
       imagesObject: [],
       localStorageHasImages : [],
       galleryImages : [],
-      hideBanner : true,
       bannerImage : [],
-      langs: ['JavaScript', 'PHP', 'HTML', 'CSS', 'Ruby', 'Python', 'Erlang'],
       paginate: ['images']
     };
     
   },
   methods: {
-    showBanner() {
-      return this.localStorageHasImages.length;
-    },
     handleFileSelect(evt) {
       var files = evt.target.files; 
       for (var i = 0, f; (f = files[i]); i++) {
@@ -82,8 +71,8 @@ export default {
           this.bannerImage.push(e.target.result);
           localStorage.setItem("images", JSON.stringify(this.imagesObject));
            this.$toastr('success', 'Image Added Successfully to Gallery', 'Image Added!!!');
-           console.log('after upload', this.imagesObject);
-        };
+           console.log(this.localStorageHasImages);
+          };
        reader.readAsDataURL(f);
       }
     },
@@ -101,7 +90,6 @@ export default {
       console.log('calling delete on singal file');
       this.imagesObject.splice(index, 1);
       this.bannerImage.splice(index, 1);
-      localStorage.removeItem(this.imagesObject.splice(index, 1))
       this.$toastr('error', 'Image Deleted Successfully From View', 'Image Deleted!!!');
     },
     deleteAllImages() {
@@ -109,7 +97,6 @@ export default {
       this.imagesObject = [];
       this.bannerImage = [];
        this.$toastr('error', 'All Image have been deleted Successfully From LocalStorage', 'Cleared LocalStorage!!!');
-      //this.hideBanner = true;
     },
      moment: function (date) {
       return moment(date);
@@ -129,7 +116,9 @@ export default {
 };
 </script>
 <style lang="scss" >
-
+.main-body{
+  min-height:500px;
+}
 .img-thumbnail {
     width: 400px;
     height: 300px;
@@ -149,6 +138,9 @@ a {
     /* border: 2px solid rgba(0, 0, 0, 0.678); */
     cursor: auto;
     text-decoration: none !important;
+}
+a.potrait {
+  cursor: auto;
 }
 
 .alert-info span {
@@ -208,5 +200,8 @@ a {
 
 .withpagination {
     text-align: center;
+    h4 {
+      text-align:left;
+    }
 }
 </style>
