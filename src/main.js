@@ -6,7 +6,7 @@ import VuePaginate from 'vue-paginate'
 
 import Lightbox from 'vue-pure-lightbox'
 Vue.use(Lightbox)
-Vue.use(VuePaginate)
+Vue.use(VuePaginate)  
 
 
 Vue.use(VueToastr, {

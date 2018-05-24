@@ -48,8 +48,8 @@ export default {
         var reader = new FileReader();
         reader.onload = e => {
           this.imagesObject.dateUploaded = new Date(e.timeStamp * 1000);
-          this.imagesObject.unshift({'imageData' : e.target.result, 'dateUploaded' : moment().format('LLLL') });
-          this.bannerImage.unshift(e.target.result);
+          this.imagesObject.push({'imageData' : e.target.result, 'dateUploaded' : moment().format('LLLL') });
+          this.bannerImage.push(e.target.result);
           localStorage.setItem("images", JSON.stringify(this.imagesObject));
            this.$toastr('success', 'Image Added Successfully to Gallery', 'Image Added!!!');
           };
@@ -82,7 +82,7 @@ export default {
     },
     createImagesForPagination() {
     let pagArr = [];
-    this.imagesObject.map((elem,index) => this.bannerImage.unshift(elem.imageData));
+    this.imagesObject.map((elem,index) => this.bannerImage.push(elem.imageData));
   },
   },
    mounted() {
