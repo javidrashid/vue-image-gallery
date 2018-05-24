@@ -93,7 +93,6 @@ export default {
     this.imagesObject.map((elem,index) => this.bannerImage.push(elem.imageData));
   },
   },
-  
    mounted() {
     this.loadFromLocalStorage();
     this.createImagesForPagination();
@@ -105,11 +104,10 @@ export default {
 .main-body{
   min-height:500px;
 }
-.img-thumbnail {
-    width: 400px;
-    height: 300px;
-}
-
+  .img-thumbnail {
+      width: 400px;
+      height: 300px;
+  }
 .lightbox__thumbnail {
     display: block;
     width: 30px !important;
@@ -119,75 +117,22 @@ export default {
 .font-weight-light {
     font-size: 12px;
 }
-
 a {
-    /* border: 2px solid rgba(0, 0, 0, 0.678); */
     cursor: auto;
     text-decoration: none !important;
+    .potrait {
+      cursor: auto;
+  }
 }
-a.potrait {
-  cursor: auto;
-}
-
 .alert-info span {
     color: red;
 }
-
 ul {
     list-style-type: none;
     padding: 0;
 }
-
 li {
     display: inline-block;
     margin: 0 10px;
-}
-
-.paginate-list {
-    width: 159px;
-    margin: 0 auto;
-    text-align: left;
-    li {
-        display: block;
-        &:before {
-            content: '⚬ ';
-            font-weight: bold;
-            color: slategray;
-        }
-    }
-}
-
-.paginate-links.items {
-    user-select: none;
-}
-
-li.active a {
-    font-weight: bold;
-}
-
-a {
-    cursor: pointer;
-}
-
-li.next:before {
-    content: ' | ';
-    margin-right: 13px;
-    color: #ddd;
-}
-
-li.disabled a {
-    color: #ccc;
-    cursor: no-drop;
-}
-
-a {
-    color: #42b983;
-}
-
-.withpagination {
-    text-align: center;
-    h4 {
-      text-align:left;
-    }
 }
 </style>

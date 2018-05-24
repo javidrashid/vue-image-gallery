@@ -13,7 +13,6 @@
          <paginate-links for="images" :limit="2" :show-step-links="true"></paginate-links>
       </div>
 </template>
-
 <script>
 export default {
     props : ['bannerImage','imagesObject'],
@@ -24,6 +23,52 @@ export default {
     }
 }
 </script>
-<style>
+<style lang="scss">
+.paginate-list {
+    width: 159px;
+    margin: 0 auto;
+    text-align: left;
+    li {
+        display: block;
+        &:before {
+            content: '⚬ ';
+            font-weight: bold;
+            color: slategray;
+        }
+    }
+}
 
+.paginate-links.items {
+    user-select: none;
+}
+
+li.active a {
+    font-weight: bold;
+    cursor:pointer;
+}
+
+a {
+    cursor: pointer;
+}
+
+li.next:before {
+    content: ' | ';
+    margin-right: 13px;
+    color: #ddd;
+}
+
+li.disabled a {
+    color: #ccc;
+    cursor: no-drop;
+}
+
+a {
+    color: #42b983;
+}
+.withpagination {
+    text-align: center;
+    h4 {
+      text-align:left;
+    }
+}
 </style>
