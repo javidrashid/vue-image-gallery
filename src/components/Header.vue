@@ -26,9 +26,6 @@ export default {
     }
   },
   methods : {
-    uploadImage() {
-     //this.$parent.handleFileSelect();
-    }
   }
 }
 </script>

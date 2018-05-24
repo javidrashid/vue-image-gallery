@@ -2,7 +2,6 @@
     <div class="container main-body">
       <h1 class="my-4 text-center text-lg-left">Vue Image Gallery with LocalStorage Support</h1>
       <p>Select images, they will be stored in your browser and will be displayed even after reload. Selecting big images (&gt; 10MB) can crash your browser.</p>
-      <!-- <input type="file" id="files" @change="handleFileSelect"> -->
        <label class="btn btn-success" @change="handleFileSelect">
             Add Image <input type="file" accept="image/*" hidden />
         </label>
@@ -28,33 +27,24 @@
      <button @click="deleteAllImages" class="btn btn-danger btn-block ">Delete All Images [Clear Local Storage]</button>
     </div>
       <hr>
-      <div class="withpagination" v-show="imagesObject.length > 0">
-         <h4 class="alert alert-info" >View Images With Pagination</h4>
-          <paginate
-          name="images"
-          :list="bannerImage"
-          :per="1"
-          >
-            <li v-for="img in paginated('images')">
-              <img :src="img" alt="">
-            </li>
-        </paginate>
-         <paginate-links for="images" :limit="2" :show-step-links="true"></paginate-links>
-      </div>
+      <paginate :bannerImage="bannerImage" :imagesObject="imagesObject"></paginate>
     </div>    
 </template>
 <script>
 import moment from 'moment';
+import paginate from './Pagination'
 export default {
   data() {
     return {
       imagesObject: [],
       localStorageHasImages : [],
       galleryImages : [],
-      bannerImage : [],
-      paginate: ['images']
+      bannerImage : []
+     
     };
-    
+  },
+  components : {
+    paginate
   },
   methods: {
     handleFileSelect(evt) {
@@ -67,11 +57,9 @@ export default {
         reader.onload = e => {
           this.imagesObject.dateUploaded = new Date(e.timeStamp * 1000);
           this.imagesObject.push({'imageData' : e.target.result, 'dateUploaded' : moment().format('LLLL') });
-          this.galleryImages.push(e.target.result);
           this.bannerImage.push(e.target.result);
           localStorage.setItem("images", JSON.stringify(this.imagesObject));
            this.$toastr('success', 'Image Added Successfully to Gallery', 'Image Added!!!');
-           console.log(this.localStorageHasImages);
           };
        reader.readAsDataURL(f);
       }
@@ -87,7 +75,6 @@ export default {
       }
     },
     deleteThisImage(index, e) {
-      console.log('calling delete on singal file');
       this.imagesObject.splice(index, 1);
       this.bannerImage.splice(index, 1);
       this.$toastr('error', 'Image Deleted Successfully From View', 'Image Deleted!!!');
@@ -103,9 +90,7 @@ export default {
     },
     createImagesForPagination() {
     let pagArr = [];
-    console.log(this.imagesObject);
     this.imagesObject.map((elem,index) => this.bannerImage.push(elem.imageData));
-     console.log(this.bannerImage);
   },
   },
   
